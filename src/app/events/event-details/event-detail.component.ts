@@ -12,6 +12,7 @@ export class EventDetailComponent implements OnInit {
   addMode: boolean;
   event: IEvent
   filterBy: string = 'all'
+  sortBy: string = 'votes'
 
   constructor(private eventService: EventsService, private route: ActivatedRoute) { }
 
