@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core'
-import { FormsModule } from '@angular/forms'
 import { Router } from '@angular/router';
 import { EventsService } from './events.service';
 
@@ -23,6 +22,7 @@ export class CreateEventComponent implements OnInit {
     cancel() {
         this.router.navigate(['events']);
     }
+
     saveEvent(newEventFormValues) {
         this.eventService.saveEvent(newEventFormValues)
         this.router.navigate(['events']);

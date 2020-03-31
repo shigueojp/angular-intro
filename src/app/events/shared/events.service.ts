@@ -6,6 +6,10 @@ import { IEvent } from './events.model';
   providedIn: 'root'
 })
 export class EventsService {
+  updateEvent(event: IEvent) {
+    let index = EVENTS.findIndex(e => e.id == event.id)
+    EVENTS[index] = event
+  }
 
   constructor() { }
 

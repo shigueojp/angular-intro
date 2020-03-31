@@ -16,7 +16,7 @@ export interface IEvent {
 
 export interface ISession {
     id: number
-    name: String
+    name: string
     presenter: string
     duration: number
     level: string
