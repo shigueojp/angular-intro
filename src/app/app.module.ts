@@ -21,6 +21,9 @@ import { SessionListComponent } from './events/event-details/session-list.compon
 import { CollapsibleWellComponent } from 'src/common/collapsible-well.component';
 import { DurationPipe } from './events/shared/duration.pipe';
 
+import { TOASTR_TOKEN, Toastr } from './shared/toastr.service'
+
+let toastr: Toastr = window['toastr']
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +46,10 @@ import { DurationPipe } from './events/shared/duration.pipe';
   ],
   providers: [
     EventsService,
+    {
+      provide: TOASTR_TOKEN,
+      useValue: toastr
+    },
     EventRouteActivatorService,
     {
       provide: 'canDeactivateCreateEvent',
