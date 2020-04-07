@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventsService } from '../shared/events.service';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Params } from '@angular/router'
 import { IEvent, ISession } from '../shared/events.model';
 
 @Component({
@@ -18,7 +18,17 @@ export class EventDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.event = this.eventService.getEvent(+this.route.snapshot.params['id']);
+    //IT WORKS FOR PAGES ROUTERS DIFFERENT FROM EVENT-DETAILS.COMPONENT
+    // this.event = this.eventService.getEvent(+this.route.snapshot.params['id']);
+
+    //CORRECT WAY USING SUBSCRIBE (LISTEN TO CHANGES)
+    this.route.params.forEach((params: Params) => {
+      this.event = this.eventService.getEvent(+params['id'])
+
+      // => Should reset to default every time
+      this.addMode = false;
+    })
+
   }
 
   addSession() {
