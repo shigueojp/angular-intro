@@ -57,7 +57,6 @@ export class EventsService {
       emitter.emit(results)
     }, 2000)
 
-    console.log(emitter)
     return emitter
   }
 }
