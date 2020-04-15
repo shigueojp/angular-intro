@@ -25,6 +25,8 @@ import { TOASTR_TOKEN, Toastr } from './shared/toastr.service'
 import { JQUERY_TOKEN } from './shared/JQuery.service';
 import { SimpleModalComponent } from './shared/simple-modal.component';
 import { ModalTriggerDirective } from './shared/modal-trigger.directive';
+import { UpVoteComponent } from './events/event-details/upvote.component';
+import { VoterService } from './events/event-details/voter.service';
 
 let toastr: Toastr = window['toastr']
 let jquery = window['$']
@@ -42,7 +44,8 @@ let jquery = window['$']
     CollapsibleWellComponent,
     DurationPipe,
     SimpleModalComponent,
-    ModalTriggerDirective
+    ModalTriggerDirective,
+    UpVoteComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ let jquery = window['$']
   ],
   providers: [
     EventsService,
+    VoterService,
     {
       provide: TOASTR_TOKEN,
       useValue: toastr
