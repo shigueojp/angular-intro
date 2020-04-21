@@ -11,10 +11,8 @@ export class CreateEventComponent implements OnInit {
     isDirty: boolean = false
     newEvent
 
-    constructor(private eventService: EventsService, private router: Router) {
+    constructor(private eventService: EventsService, private router: Router) { }
 
-
-    }
     ngOnInit(): void {
         throw new Error("Method not implemented.");
     }
