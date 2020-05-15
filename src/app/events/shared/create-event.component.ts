@@ -14,7 +14,6 @@ export class CreateEventComponent implements OnInit {
     constructor(private eventService: EventsService, private router: Router) { }
 
     ngOnInit(): void {
-        throw new Error("Method not implemented.");
     }
 
     cancel() {
@@ -22,7 +21,9 @@ export class CreateEventComponent implements OnInit {
     }
 
     saveEvent(newEventFormValues) {
-        this.eventService.saveEvent(newEventFormValues)
-        this.router.navigate(['events']);
+        this.eventService.saveEvent(newEventFormValues).subscribe(() => {
+            this.isDirty = false;
+            this.router.navigate(['events']);
+        })
     }
 }

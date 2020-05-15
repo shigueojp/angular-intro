@@ -22,11 +22,27 @@ export class EventDetailComponent implements OnInit {
     // this.event = this.eventService.getEvent(+this.route.snapshot.params['id']);
 
     //CORRECT WAY USING SUBSCRIBE (LISTEN TO CHANGES)
-    this.route.params.forEach((params: Params) => {
-      this.event = this.eventService.getEvent(+params['id'])
+    this.route.data.forEach((data) => {
+      // CORRECT WAY USING CONST INSTEAD OF HTTP
+      // this.route.params.forEach((params: Params) => {
+      //   this.event = this.eventService.getEvent(+params['id'])
+
+      //   // => Should reset to default every time
+      //   this.addMode = false;
+      // })
+
+      //  Correct way of using Observables
+      // this.eventService.getEvent(+params['id']).subscribe((event: IEvent) => {
+      //   this.event = event;
+      //   this.addMode = false;
+      // })
+
+      // Correct way using Resolve
+      this.event = data['event'];
+      this.addMode = false;
 
       // => Should reset to default every time
-      this.addMode = false;
+
     })
 
   }
@@ -40,7 +56,7 @@ export class EventDetailComponent implements OnInit {
 
     session.id = nextId + 1
     this.event.sessions.push(session)
-    this.eventService.updateEvent(this.event)
+    this.eventService.saveEvent(this.event).subscribe()
     this.addMode = false
   }
 

@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 import { IEvent, ISession } from './events.model';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +16,8 @@ export class EventsService {
   }
 
   saveEvent(event) {
-    event.id = 99
-    event.session = []
-    EVENTS.push(event)
+    let options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+    return this.http.post<IEvent>('/api/events', event, options).pipe(catchError(this.handleError<IEvent>('saveEvent')))
   }
 
   getEvents(): Observable<IEvent[]> {
@@ -32,42 +31,20 @@ export class EventsService {
     }
   }
 
-  public getEvent(id): IEvent {
-    return EVENTS.find(event => event.id === id)
+  public getEvent(id): Observable<IEvent> {
+    return this.http.get<IEvent>('/api/events/' + id).pipe(catchError(this.handleError<IEvent>('getEvent')))
   }
 
-  searchSessions(searchTerm: string) {
-    let term = searchTerm.toLocaleLowerCase();
-    let results: ISession[] = [];
-
-    EVENTS.forEach(event => {
-      let matchingSessions = event.sessions.filter((session) => {
-        return session.name.toLocaleLowerCase().indexOf(term) > -1
-      })
-
-
-      matchingSessions = matchingSessions.map((session: any) => {
-        session.eventId = event.id
-        return session;
-      })
-      results = results.concat(matchingSessions)
-    })
-
-    // True for async
-    let emitter = new EventEmitter(true);
-
-    setTimeout(() => {
-      emitter.emit(results)
-    }, 2000)
-
-    return emitter
+  searchSessions(searchTerm: string): Observable<ISession[]> {
+    return this.http.get<ISession[]>('api/sessions/search?search=' + searchTerm)
+      .pipe(catchError(this.handleError<ISession[]>('searchSessions')))
   }
 }
 
 const EVENTS: IEvent[] = [
   {
     id: 1,
-    name: 'Angular Connect',
+    name: 'Angular Connect 2',
     date: new Date('9/26/2036'),
     time: '10:00 am',
     price: 599.99,

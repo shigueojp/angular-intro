@@ -29,6 +29,7 @@ import { UpVoteComponent } from './events/event-details/upvote.component';
 import { VoterService } from './events/event-details/voter.service';
 import { LocationValidator } from './events/location-valitador.directive';
 import { HttpClientModule } from '@angular/common/http';
+import { EventResolver } from './events/event-resolver.service';
 
 let toastr: Toastr = window['toastr']
 let jquery = window['$']
@@ -68,13 +69,13 @@ let jquery = window['$']
       provide: JQUERY_TOKEN,
       useValue: jquery
     },
-    EventRouteActivatorService,
     {
       provide: 'canDeactivateCreateEvent',
       useValue: checkDirtyState
     },
 
     EventListResolverService,
+    EventResolver,
     AuthService,
   ],
   bootstrap: [AppComponent]
