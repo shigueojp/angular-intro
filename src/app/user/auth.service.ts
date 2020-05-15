@@ -3,12 +3,13 @@ import { IUser } from './user.model';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
     currentUser: IUser
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
     loginUser(userName: string, password: string) {
         let loginInfo = { username: userName, password: password }
         let options = { headers: new HttpHeaders({ 'Content-type': 'application/json' }) }
@@ -46,9 +47,14 @@ export class AuthService {
             .pipe(tap(data => {
                 if (data instanceof Object) {
                     this.currentUser = <IUser>data;
-                    console.log(data)
-                    console.log(this.currentUser)
                 }
             })).subscribe()
+    }
+
+    logout() {
+        this.currentUser = undefined;
+
+        let options = { headers: new HttpHeaders({ 'Content-Type': 'applicasion/json' }) }
+        return this.http.post(`api/logout/`, {}, options)
     }
 }
