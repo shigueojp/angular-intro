@@ -1,5 +1,12 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { AuthService } from './user/auth.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from "@angular/router/testing";
+import { JQUERY_TOKEN } from './shared/JQuery.service';
+
+let jquery = window['$'];
+let mockAuthService;
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -7,6 +14,20 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+      providers: [
+        {
+          provide: AuthService,
+          useValue: mockAuthService
+        },
+        {
+          provide: JQUERY_TOKEN,
+          useValue: jquery
+        },
+      ]
     }).compileComponents();
   }));
 
@@ -20,12 +41,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('ng-intro');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('ng-intro app is running!');
   });
 });
